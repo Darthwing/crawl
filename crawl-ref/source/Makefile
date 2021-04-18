@@ -1223,11 +1223,12 @@ DOC_BASE        := ../docs
 DOC_TEMPLATES   := $(DOC_BASE)/template
 GENERATED_DOCS  := $(DOC_BASE)/aptitudes.txt $(DOC_BASE)/aptitudes-wide.txt $(DOC_BASE)/FAQ.html $(DOC_BASE)/crawl_manual.txt $(DOC_BASE)/quickstart.txt
 # Headers that need to exist before attempting to compile cc files
-GENERATED_HEADERS := art-enum.h config.h mon-mst.h species-type.h
+GENERATED_HEADERS := art-enum.h config.h mon-mst.h species-type.h job-type.h
 # All other generated files will be created later
 GENERATED_FILES := $(GENERATED_HEADERS) art-data.h mi-enum.h \
                    $(RLTILES)/dc-unrand.txt build.h compflag.h dat/dlua/tags.lua \
-                   cmd-name.h species-data.h aptitudes.h species-groups.h
+                   cmd-name.h species-data.h aptitudes.h species-groups.h \
+                   job-data.h job-groups.h
 
 LANGUAGES = $(filter-out en, $(notdir $(wildcard dat/descript/??)))
 SRC_PKG_BASE  := stone_soup
@@ -1779,7 +1780,7 @@ dat/dlua/tags.lua: tag-version.h util/gen-luatags.pl
 mi-enum.h: mon-info.h util/gen-mi-enum
 	$(QUIET_GEN)util/gen-mi-enum
 
-# species-gen.py creates multiple files at once. Ensure Make doesn't run it once
+# species-gen.py and job-gen.py creates multiple files at once. Ensure Make doesn't run it once
 # per target file by adding all the files into a single dependency chain.
 # Ref: https://stackoverflow.com/q/2973445
 species-data.h: dat/species/*.yaml util/species-gen.py util/species-gen/*.txt
@@ -1792,6 +1793,15 @@ species-groups.h: aptitudes.h
 	$(QUIET_GEN)
 # no-op
 species-type.h: species-groups.h
+	$(QUIET_GEN)
+# no-op
+job-data.h: dat/jobs/*.yaml util/job-gen.py util/job-gen/*.txt
+	$(QUIET_GEN)util/job-gen.py dat/jobs/ util/job-gen/ job-data.h job-groups.h job-type.h
+# no-op
+job-groups.h: job-data.h
+	$(QUIET_GEN)
+# no-op
+job-type.h: job-groups.h
 	$(QUIET_GEN)
 
 $(RLTILES)/dc-unrand.txt: art-data.h
