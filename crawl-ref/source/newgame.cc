@@ -18,6 +18,7 @@
 #include "item-name.h" // make_name
 #include "item-prop.h"
 #include "jobs.h"
+#include "job-groups.h"
 #include "libutil.h"
 #include "macro.h"
 #include "maps.h"
@@ -1074,39 +1075,6 @@ static void _construct_species_menu(const newgame_def& ng,
         }
     }
 }
-
-static job_group jobs_order[] =
-{
-    {
-        "Warrior",
-        coord_def(0, 0), 20,
-        { JOB_FIGHTER, JOB_GLADIATOR, JOB_MONK, JOB_HUNTER, JOB_BRIGAND }
-    },
-    {
-        "Adventurer",
-        coord_def(0, 7), 20,
-        { JOB_ARTIFICER, JOB_WANDERER, JOB_DELVER, }
-    },
-    {
-        "Zealot",
-        coord_def(1, 0), 25,
-        { JOB_BERSERKER, JOB_ABYSSAL_KNIGHT, JOB_CHAOS_KNIGHT }
-    },
-    {
-        "Warrior-mage",
-        coord_def(1, 5), 26,
-        { JOB_TRANSMUTER, JOB_WARPER, JOB_ARCANE_MARKSMAN,
-          JOB_ENCHANTER }
-    },
-    {
-        "Mage",
-        coord_def(2, 0), 22,
-        { JOB_WIZARD, JOB_CONJURER, JOB_SUMMONER, JOB_NECROMANCER,
-          JOB_FIRE_ELEMENTALIST, JOB_ICE_ELEMENTALIST,
-          JOB_AIR_ELEMENTALIST, JOB_EARTH_ELEMENTALIST, JOB_VENOM_MAGE }
-    }
-};
-
 /**
  * Helper for _choose_job
  * constructs the menu used and highlights the previous job if there is one
@@ -1117,7 +1085,7 @@ static void _construct_backgrounds_menu(const newgame_def& ng,
 {
     menu_letter letter = 'a';
     // Add entries for any job groups with at least one playable background.
-    for (job_group& group : jobs_order)
+    for (job_group& group : job_groups)
     {
         if (ng.species == SP_UNKNOWN
             || any_of(begin(group.jobs), end(group.jobs), [&ng](job_type job)

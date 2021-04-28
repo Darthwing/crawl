@@ -101,11 +101,11 @@ class Job(MutableMapping):
 JobGroup = collections.namedtuple('JobGroup', ['position', 'width', 'jobs'])
 JobGroupEntry = collections.namedtuple('JobGroupEntry', ['priority', 'enum'])
 JOB_GROUPS_TEMPLATE = {
-    'Warrior': JobGroup('coord_def(0, 0)', '15', []),
-    'Adventurer': JobGroup('coord_def(0, 7)', '15', []),
-    'Zealot': JobGroup('coord_def(15, 0)', '20', []),
-    'Warrior-mage': JobGroup('coord_def(35, 0)', '21', []),
-    'Mage': JobGroup('coord_def(56, 0)', '22', []),
+    'Warrior': JobGroup('coord_def(0, 0)', '20', []),
+    'Adventurer': JobGroup('coord_def(0, 7)', '20', []),
+    'Zealot': JobGroup('coord_def(1, 0)', '25', []),
+    'Warrior-mage': JobGroup('coord_def(1, 5)', '26', []),
+    'Mage': JobGroup('coord_def(2, 0)', '22', []),
 }
 JOB_GROUP_TEMPLATE = """
     {{
